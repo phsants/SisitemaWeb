@@ -11,11 +11,11 @@ using SisitemaWeb.Models;
 namespace SisitemaWeb.Controllers
 {
     [Authorize]
-    public class ProdutoesController : Controller
+    public class ProdutosController : Controller
     {
         private readonly Contexto _context;
 
-        public ProdutoesController(Contexto context)
+        public ProdutosController(Contexto context)
         {
             _context = context;
         }
@@ -49,7 +49,7 @@ namespace SisitemaWeb.Controllers
         // GET: Produtoes/Create
         public IActionResult Create()
         {
-            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Id");
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Descricao");
             return View();
         }
 
@@ -66,7 +66,7 @@ namespace SisitemaWeb.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Id", produto.CategoriaId);
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Descricao", produto.CategoriaId);
             return View(produto);
         }
 
@@ -83,7 +83,7 @@ namespace SisitemaWeb.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Id", produto.CategoriaId);
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Descricao", produto.CategoriaId);
             return View(produto);
         }
 
@@ -119,7 +119,7 @@ namespace SisitemaWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Id", produto.CategoriaId);
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Descricao", produto.CategoriaId);
             return View(produto);
         }
 
