@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SistemaWeb.Models;
 
 namespace SisitemaWeb.Models
 {
@@ -8,5 +9,6 @@ namespace SisitemaWeb.Models
 
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Produto> Produtos { get; set; }
+        public DbSet<Conta> Conta { get; set }
     }
 }
