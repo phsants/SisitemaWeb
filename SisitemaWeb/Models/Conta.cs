@@ -10,7 +10,7 @@ namespace SistemaWeb.Models
         [Required]
         [StringLenght(200)]
         [Display(Name = "Descricao")]
-        public string descricao { get; set };
+        public string descricao { get; set; }
 
         [Required]
         [DataType(DataType.Currency)]
@@ -29,5 +29,10 @@ namespace SistemaWeb.Models
         [Required]
         public DateTime DataVencimento { get; set; } = DateTime.Now;
 
+        public int TipoId { get; set; }
+        public virtual Tipo Tipo { get; set; }
+
+        public int ClassificacaoId { get; set; }
+        public virtual Classificacao Classificacao { get; set; }
     }
 }
