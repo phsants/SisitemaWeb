@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SisitemaWeb.Areas.Identity.Data;
 using SisitemaWeb.Models;
 using SistemaWeb.Models;
 
@@ -13,18 +15,22 @@ namespace SistemaWeb.Controllers
 {
     [Authorize]
     public class ContasController : Controller
+
     {
         private readonly Contexto _context;
+        private readonly UserManager<SisitemaWebUser> _userManager;
 
-        public ContasController(Contexto context)
+
+        public ContasController(Contexto context, UserManager<SisitemaWebUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Contas
         public async Task<IActionResult> Index()
         {
-            var contexto = _context.Conta.Include(c => c.Classificacao).Include(c => c.Tipo);
+            var contexto = _context.Conta.Where(c=>c.IdUser == _userManager.GetUserId(User)).Include(c => c.Classificacao).Include(c => c.Tipo);
             return View(await contexto.ToListAsync());
         }
 
@@ -61,10 +67,12 @@ namespace SistemaWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //Migra conta com os dados do usuario _LoginPartial @UserManager.GetUserName(User).
         public async Task<IActionResult> Create([Bind("ItemId,descricao,Valor,DataPagamento,DataVencimento,TipoId,ClassificacaoId")] Conta conta)
         {
             if (ModelState.IsValid)
             {
+                conta.IdUser = _userManager.GetUserId(User);
                 _context.Add(conta);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

@@ -34,5 +34,7 @@ namespace SistemaWeb.Models
 
         public int ClassificacaoId { get; set; }
         public virtual Classificacao Classificacao { get; set; }
+        public string IdUser { get; set; }
+ 
     }
 }
